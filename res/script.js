@@ -14,25 +14,32 @@
  *  limitations under the License.
  */
 
-var last = 0, clicks = 0;
-function increaseCount(elem)
+var clicks = 0;	// Stores the number of button clicks
+var pos = true;	// Checks if the clicking the button executes the function.
+
+function buttonClicked(elem)
 {
-	var cur = new Date();
-	var now = cur.getTime()/1000;
-	if (now - last >= 2) {
-		clicks++;
-		var box = document.getElementById("main");
-		box.style.opacity = 0;
-		elem.style = "cursor: wait";
-		setTimeout(function () {
-						elem.style = "cursor: pointer";
-					}, 2000);
-		setTimeout(function () {
-						box.innerHTML = "Number of clicks: " + clicks;
-						box.style.opacity = 1;
-					}, 500);
-		last = now;
+	if (pos)	// If yes, increase the clicks count, display the new count and return true.
+	{
+		increaseCount(elem);
 		return true;
 	}
 	else	return false;
+}
+
+function increaseCount (elem)
+{
+	clicks++;	// Increments the click count by 1.
+	var box = document.getElementById("main");
+	box.style.opacity = 0;
+	elem.style = "cursor: wait";
+	pos = false;
+	setTimeout(function () {
+					elem.style = "cursor: pointer";
+					pos = true;
+				}, 2000);
+	setTimeout(function () {
+					box.innerHTML = "Number of clicks: " + clicks;
+					box.style.opacity = 1;
+				}, 500);
 }
